@@ -67,7 +67,7 @@ const createPlace = async (req, res, next) => {
   }
 
   if (!errors.isEmpty()) {
-    next(new HttpError("Invalid  " + params + " fields", 422));
+    return next(new HttpError("Invalid  " + params + " fields", 422));
   }
 
   const { title, description, address, creator } = req.body;
