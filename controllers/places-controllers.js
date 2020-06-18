@@ -60,9 +60,13 @@ const getPlacesByUserId = (req, res, next) => {
 const createPlace = (req, res, next) => {
   const errors = validationResult(req);
 
+  let params = [];
+  for (var i = 0; i < errors.errors.length; i++) {
+    params.push(errors.errors[i].param);
+  }
+
   if (!errors.isEmpty()) {
-    console.log(errors);
-    throw new HttpError("Invalid Inputs passed, please check your data", 422);
+    throw new HttpError("Invalid  " + params + " fields", 422);
   }
 
   const { title, description, coordinates, address, creator } = req.body;
@@ -81,10 +85,13 @@ const createPlace = (req, res, next) => {
 
 const updatePlace = (req, res, next) => {
   const errors = validationResult(req);
+  let params = [];
+  for (var i = 0; i < errors.errors.length; i++) {
+    params.push(errors.errors[i].param);
+  }
 
   if (!errors.isEmpty()) {
-    console.log(errors);
-    throw new HttpError("Invalid info passed, please check your data", 422);
+    throw new HttpError("Invalid  " + params + " fields", 422);
   }
 
   const { title, description } = req.body;
