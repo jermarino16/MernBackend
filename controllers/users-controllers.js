@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const { validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
@@ -26,7 +27,7 @@ const signup = async (req, res, next) => {
     return next(new HttpError("Invalid info entered, please try again", 422));
   }
 
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -51,7 +52,7 @@ const signup = async (req, res, next) => {
     image:
       "https://images.unsplash.com/photo-1524014998093-b1010ae76d63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80",
     password,
-    places,
+    places: [],
   });
   try {
     await createdUser.save();
