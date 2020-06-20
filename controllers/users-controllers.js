@@ -69,12 +69,15 @@ const login = async (req, res, next) => {
 
   let identifiedUser;
   try {
-    identifiedUser = User.findOne({ email: email });
+    identifiedUser = await User.findOne({ email: email });
   } catch (err) {
-    const error = new HttpError("Something went wrong please try again", 500);
+    const error = new HttpError(
+      "Logging in failed, please try again later",
+      500
+    );
     return next(error);
   }
-  identifiedUser = (await identifiedUser).toObject({ getters: true });
+
   if (!identifiedUser || identifiedUser.password !== password) {
     return next(
       new HttpError(
